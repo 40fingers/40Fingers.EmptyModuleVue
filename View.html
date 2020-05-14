@@ -1,0 +1,50 @@
+﻿[JavaScript:{ jsname: "JQuery" }]
+[JavaScript:{ path: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"}]
+[JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
+[JavaScript:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/ItemView.js"}]
+
+[ModuleAction:{ controlKey : "Edit",
+                securityAccessLevel : "Edit",
+                titleKey: "EditModule",
+                localResourceFile: "~/DesktopModules/40Fingers/EmptyModuleVue/App_LocalResources/View.resx"
+}]
+
+    <div id="app-[ModuleContext:ModuleId]">
+        <ul class="tm_tl">
+            <li class="tm_t" v-for="item in items">
+                <h3>{{item.name}}</h3>
+                <div class="tm_td">{{item.description}}</div>
+                <div v-if="items.length > 0 && items[0].editUrl">
+                    <a v-bind:href="item.editUrl">[Resx:{key:"EditItem"}]</a>
+                    <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+<script language="javascript" type="text/javascript">
+    var moduleId = parseInt("[ModuleContext:ModuleId]");
+
+    jQuery(function ($) {
+        var app = new Vue({
+            el: '#app-[ModuleContext:ModuleId]',
+            data: {
+                items: [
+                    { "id": 2, "name": "item 1", "description": "omschrijving 1", "assignedUser": null }, 
+                    { "id": 3, "name": "item 2", "description": "omschirjving 2", "assignedUser": null }
+                ]
+            },
+            methods: {
+                deleteItem() {
+                    alert('delete it');
+                }
+            },
+            mounted: function() {
+                EmptyModuleVue.GetItemList(function(data) {
+                    this.items = data;
+                });
+            }
+        });
+    });
+
+</script>
