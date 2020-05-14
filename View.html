@@ -11,12 +11,17 @@
 
     <div id="app-[ModuleContext:ModuleId]">
         <ul class="tm_tl">
+            <div>
+                <a @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
+                <edit-item v-if="addMode"></edit-item>
+            </div>
             <li class="tm_t" v-for="item in items">
                 <h3>{{item.name}}</h3>
                 <div class="tm_td">{{item.description}}</div>
                 <div v-if="items.length > 0 && items[0].editUrl">
                     <a v-bind:href="item.editUrl">[Resx:{key:"EditItem"}]</a>
                     <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
+                    <edit-item></edit-item>
                 </div>
             </li>
         </ul>
@@ -26,9 +31,16 @@
     var moduleId = parseInt("[ModuleContext:ModuleId]");
 
     jQuery(function ($) {
+        // Define a new component called edit-item
+        Vue.component('edit-item',
+            {
+                template: '<div>This will be edit</div>'
+            });
+
         var app = new Vue({
             el: '#app-[ModuleContext:ModuleId]',
             data: {
+                addMode: false,
                 items: [
                     { "id": 2, "name": "item 1", "description": "omschrijving 1", "assignedUser": null }, 
                     { "id": 3, "name": "item 2", "description": "omschirjving 2", "assignedUser": null }
@@ -37,6 +49,9 @@
             methods: {
                 deleteItem() {
                     alert('delete it');
+                },
+                addItem() {
+                    this.addMode = true;
                 }
             },
             mounted: function() {
