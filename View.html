@@ -8,56 +8,119 @@
                 titleKey: "EditModule",
                 localResourceFile: "~/DesktopModules/40Fingers/EmptyModuleVue/App_LocalResources/View.resx"
 }]
-
+<div id="vue-app-wrapper-[ModuleContext:ModuleId]">
     <div id="app-[ModuleContext:ModuleId]">
+        <edit-component></edit-component>
         <ul class="tm_tl">
-            <div>
-                <a @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
-                <edit-item v-if="addMode"></edit-item>
-            </div>
-            <li class="tm_t" v-for="item in items">
+            <li class="tm_t" v-for="(item, index) in items">
                 <h3>{{item.name}}</h3>
                 <div class="tm_td">{{item.description}}</div>
-                <div v-if="items.length > 0 && items[0].editUrl">
-                    <a v-bind:href="item.editUrl">[Resx:{key:"EditItem"}]</a>
-                    <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
-                    <edit-item></edit-item>
-                </div>
+                <edit-component></edit-component>
             </li>
         </ul>
     </div>
+</div>
 
+<script type="x-template" id="test-component">
+    <div>
+        <h1>Dit is het test-template</h1>
+    </div>
+</script>
+<script type="x-template" id="edit-component">
+    <div>
+        <a v-if="typeof(item.id) === 'undefined' && !editMode" @click="toggleEditMode" href="#">[Resx:{key:"EditModule"}]</a>
+        <div v-if="editMode" class="dnnForm dnnEditBasicSettings" id="dnnEditBasicSettings">
+            <fieldset>
+                <div class="dnnFormItem">
+                    <div><label for="itemName">[Resx:{key:"lblName"}]</label></div>
+                    <input id="itemName" type="text" v-model="item.name" />
+                </div>
+                <div class="dnnFormItem">
+                    <div><label for="itemDescription">[Resx:{key:"lblDescription"}]</label></div>
+                    <textarea id="itemDescription" cols="20" rows="5" v-model="item.description"></textarea>
+                </div>
+                <div class="dnnFormItem">
+                    <div><label for="itemUser">[Resx:{key:"lblAssignedUser"}]</label></div>
+                    <select v-model="orgItem.assignedUser">
+                        <option v-for="user in users" v-bind:value="user.id">
+                            {{ user.name }}
+                        </option>
+                    </select>
+                </div>
+            </fieldset>
+            <a href="#" @click="saveItem" class="dnnPrimaryAction">[Resx:{key:"btnSubmit"}]</a>
+            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">[Resx:{key:"btnCancel"}]</a>
+        </div>
+        <div v-if="item.canEdit">
+            <a v-if="!editMode" @click="editItem(orgItem)" href="#">[Resx:{key:"EditItem"}]</a>
+            <a @click="deleteItem(item)" href="#">[Resx:{key:"DeleteItem"}]</a>
+        </div>
+    </div>
+</script>
 <script language="javascript" type="text/javascript">
     var moduleId = parseInt("[ModuleContext:ModuleId]");
-
+    var app = null;
     jQuery(function ($) {
         // Define a new component called edit-item
-        Vue.component('edit-item',
-            {
-                template: '<div>This will be edit</div>'
-            });
+        Vue.component('test-component', {
+            template: '#test-component'
+        });
 
-        var app = new Vue({
+        Vue.component('edit-component', {
+            template: '#edit-component',
+            props: ['orgItem'],
+            data: function () {
+                return {
+                    item : {},
+                    editMode: false,
+                    users: [{ "id": 1000, "name": "Pietje Puk" },{ "id": 1001, "name": "Pietje Jan Klaassen" }],
+                }
+            },
+            methods: {
+                toggleEditMode() {
+                    this.editMode = !this.editMode;
+                },
+                saveItem() {
+                    var self = this;
+                    EmptyModuleVue.SaveItem(this.item, function(data) {
+                        // onDone
+                        self.editMode = false;
+                        self.orgItem = {};
+                        app.loadItems(); // TODO: this should be done with $emit or sth
+                    });
+                },
+                cancelEdit() {
+                    var self = this;
+                    self.editMode = false;
+                    self.orgItem = {};
+                }
+            },
+        });
+
+        app = new Vue({
             el: '#app-[ModuleContext:ModuleId]',
             data: {
                 addMode: false,
-                items: [
-                    { "id": 2, "name": "item 1", "description": "omschrijving 1", "assignedUser": null }, 
-                    { "id": 3, "name": "item 2", "description": "omschirjving 2", "assignedUser": null }
-                ]
+                editId: 0,
+                items: [],
             },
             methods: {
                 deleteItem() {
                     alert('delete it');
                 },
-                addItem() {
-                    this.addMode = true;
+                loadItems() {
+                    var self = this;
+                    EmptyModuleVue.GetItemList(function (data) {
+                        console.log("setting items");
+                        self.items = data;
+                    });
+                },
+                editItem(item) {
+                    this.editId = item.id;
                 }
             },
-            mounted: function() {
-                EmptyModuleVue.GetItemList(function(data) {
-                    this.items = data;
-                });
+            mounted: function () {
+                this.loadItems();
             }
         });
     });

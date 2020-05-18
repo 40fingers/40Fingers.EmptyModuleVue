@@ -21,6 +21,46 @@ EmptyModuleVue.GetItemList = function(onDone) {
         });
 }
 
+EmptyModuleVue.SaveItem = function (editItem, onDone, onFail) {
+    var ajaxMethod = "POST";
+    var restUrl = EmptyModuleVue.service.baseUrl;
+
+    if (editItem.id > 0) {
+        // ajaxMethod = "PATCH";
+        restUrl += item.id;
+    }
+    var jqXHR = $.ajax({
+        method: ajaxMethod,
+        url: restUrl,
+        contentType: "application/json; charset=UTF-8",
+        data: JSON.stringify(editItem),
+        beforeSend: EmptyModuleVue.service.framework.setModuleHeaders,
+        dataType: "json"
+    }).done(function (data) {
+        if (typeof(onDone) === "function") {
+            onDone(data);
+        }
+    }).always(function (data) {
+    });
+};
+
+EmptyModuleVue.DeleteItem = function (item, onDone, onFail) {
+        var restUrl = service.baseUrl + item.id();
+        var jqXHR = $.ajax({
+            method: "DELETE",
+            url: restUrl,
+            beforeSend: service.framework.setModuleHeaders
+        }).done(function () {
+            if (typeof(onDone) === "function") {
+                onDone();
+            }
+        }).fail(function () {
+            console.log("Error");
+        }).always(function (data) {
+        });
+    };
+
+
 //EmptyModuleVue.itemListViewModel = function (moduleId, resx) {
 
 //    var isLoading = ko.observable(false);
