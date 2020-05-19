@@ -115,13 +115,9 @@
   <ItemGroup>
     <Content Include="BuildScripts\custom.xml" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
-    <Content Include="Documentation\Documentation.css" />
-    <Content Include="Documentation\Documentation.html" />
-    <Content Include="Edit.html" />
     <Content Include="License.txt" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
-    <Content Include="Scripts\ItemEdit.js" />
     <Content Include="Scripts\ItemView.js" />
     <Content Include="Scripts\QuickSettings.js" />
     <Content Include="_external\DotNetNuke.dll" />
@@ -139,7 +135,6 @@
     <Content Include="App_LocalResources\View.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_LocalResources\Edit.resx" />
     <Content Include="App_LocalResources\Settings.resx" />
   </ItemGroup>
   <ItemGroup>

@@ -1,23 +1,10 @@
 ﻿<h3>EmptyModuleVue</h3>
-<p class="Contributor">
-	Christoc.com <br />
-	<a href="mailto:modules@christoc.com">modules@christoc.com</a><br />
-	<a href=http://www.christoc.com>http://www.christoc.com</a><br />
+<p class="Owner">
+	40fingers.net <br />
+	<a href="mailto:support@40fingers.net">support@40fingers.net</a>
 </p>
 <hr/>
 <div class="License">
 	<h3>About the EmptyModuleVue</h3>
-	<p class="Owner">
-		<b>Version CHANGEME</b><br /><br />
-	</p>
-	<p>Description about version.</p>
-	
-	<h4>Bug Fixes</h4>
-	<ul>
-			<li>List</li>
-			<li>of</li>
-			<li>bug</li>
-			<li>fixes</li>
-	</ul>
-	
+	<p>This module is intended as an example of how to build DNN Modules with VueJS.</p>
 </div>

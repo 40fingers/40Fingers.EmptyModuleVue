@@ -159,4 +159,7 @@
   <data name="lblName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Refresh.Text" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>
