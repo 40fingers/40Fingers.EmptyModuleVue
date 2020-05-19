@@ -15,12 +15,9 @@ namespace FortyFingers.EmptyModuleVue.Services.ViewModels
             AssignedUser = t.AssignedUserId;
         }
 
-        public ItemViewModel(Item t, string editUrl)
+        public ItemViewModel(Item t, bool canEdit) : this(t)
         {
-            Id = t.Id;
-            Name = t.ItemName;
-            Description = t.ItemDescription;
-            EditUrl = editUrl;
+            CanEdit = canEdit;
         }
 
 
@@ -38,7 +35,7 @@ namespace FortyFingers.EmptyModuleVue.Services.ViewModels
         [JsonProperty("assignedUser")]
         public int? AssignedUser { get; set; }
 
-        [JsonProperty("editUrl")]
-        public string EditUrl { get; }
+        [JsonProperty("canEdit")]
+        public bool CanEdit { get; }
     }
 }

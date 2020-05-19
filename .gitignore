@@ -9,11 +9,13 @@
 *.user
 *.userosscache
 *.sln.docstates
+[Bb]uild[Ss]cripts/custom.xml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Build results
+[Ii]nstall/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

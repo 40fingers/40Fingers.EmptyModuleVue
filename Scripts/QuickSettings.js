@@ -1,39 +1,32 @@
-﻿var EmptyModuleVue = EmptyModuleVue || {};
+﻿var EmptyModuleVueSettings = EmptyModuleVueSettings || {};
 
-//EmptyModuleVue.quickSettings = function(root, moduleId) {
+EmptyModuleVue.services = {}; // we need a service reference for each module
 
-//    // Setup your settings service endpoint
-//    /*
-//    var service = {
-//        path: "EmptyModuleVue",
-//        framework: $.ServicesFramework(moduleId)
-//    }
-//    service.baseUrl = service.framework.getServiceRoot(service.path) + "Settings/";
-//    */
+jQuery(function ($) {
+    EmptyModuleVueSettings.service.framework = $.ServicesFramework(0); // TODO
+    EmptyModuleVueSettings.service.baseUrl = EmptyModuleVueSettings.service.framework.getServiceRoot(EmptyModuleVueSettings.service.path) + "Settings/";
+});
 
-//    var SaveSettings = function () {
-//        alert("Save Settings");
-//    };
+EmptyModuleVueSettings.InitApp = function(moduleid) {
+    var svc = {
+        moduleid: moduleid,
+        path: "40Fingers/EmptyModuleVue",
+        framework: $.ServicesFramework(moduleid)
+    };
+    svc.baseUrl = svc.framework.getServiceRoot(svc.path) + "Item/";
 
-//    var CancelSettings = function () {
+    EmptyModuleVueSettings.services[`svc-${moduleid}`] = svc;
 
-//    };
-
-//    var LoadSettings = function () {
-
-//    };
-
-//    var init = function () {
-//        // Wire up the default save and cancel buttons
-//        $(root).dnnQuickSettings({
-//            moduleId: moduleId,
-//            onSave: SaveSettings,
-//            onCancel: CancelSettings
-//        });
-//        LoadSettings();
-//    }
-
-//    return {
-//        init: init
-//    }
-//};
+    new Vue({
+        el: `#settings-${moduleid}`,
+        computed: {
+        },
+        data: {
+            message: "From Vue"
+        },
+        methods: {
+        },
+        mounted: function() {
+        }
+    });
+}

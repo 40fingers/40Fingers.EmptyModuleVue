@@ -3,63 +3,64 @@
 [JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
 [JavaScript:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/ItemView.js"}]
 
-[ModuleAction:{ controlKey : "Edit",
-                securityAccessLevel : "Edit",
-                titleKey: "EditModule",
-                localResourceFile: "~/DesktopModules/40Fingers/EmptyModuleVue/App_LocalResources/View.resx"
-}]
-
+<div id="vue-app-wrapper-[ModuleContext:ModuleId]">
     <div id="app-[ModuleContext:ModuleId]">
+        <div>
+            <a @click="loadItems" href="#">[Resx:{key:"Refresh"}]</a>
+            <a v-if="userCanAdd" @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
+        </div>
         <ul class="tm_tl">
-            <div>
-                <a @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
-                <edit-item v-if="addMode"></edit-item>
-            </div>
-            <li class="tm_t" v-for="item in items">
+            <li class="tm_t" v-for="(item, index) in items" :key="item.id">
                 <h3>{{item.name}}</h3>
                 <div class="tm_td">{{item.description}}</div>
-                <div v-if="items.length > 0 && items[0].editUrl">
-                    <a v-bind:href="item.editUrl">[Resx:{key:"EditItem"}]</a>
-                    <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
-                    <edit-item></edit-item>
-                </div>
+                <edit-component :moduleid="moduleid"
+                                :id="item.id"
+                                :name="item.name"
+                                :description="item.description"
+                                :canedit="item.canEdit"
+                                :assigned-user="item.assignedUser"
+                                :users="users"
+                                v-on:reload="loadItems"
+                                v-on:edit-cancelled="cancelAdd"></edit-component>
             </li>
         </ul>
     </div>
+</div>
+
+<script type="x-template" id="edit-component-[ModuleContext:ModuleId]">
+    <div>
+        <div v-if="editMode || item.id <= 0" class="dnnForm dnnEditBasicSettings" id="dnnEditBasicSettings">
+            <fieldset>
+                <div class="dnnFormItem">
+                    <div><label for="itemName">[Resx:{key:"lblName"}]</label></div>
+                    <input id="itemName" type="text" v-model="item.name" />
+                </div>
+                <div class="dnnFormItem">
+                    <div><label for="itemDescription">[Resx:{key:"lblDescription"}]</label></div>
+                    <textarea id="itemDescription" cols="20" rows="5" v-model="item.description"></textarea>
+                </div>
+                <div class="dnnFormItem">
+                    <div><label for="itemUser">[Resx:{key:"lblAssignedUser"}]</label></div>
+                    <select v-model="item.assignedUser">
+                        <option v-for="user in users" v-bind:value="user.id">
+                            {{ user.name }}
+                        </option>
+                    </select>
+                </div>
+            </fieldset>
+            <a href="#" @click="saveItem" class="dnnPrimaryAction">[Resx:{key:"btnSubmit"}]</a>
+            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">[Resx:{key:"btnCancel"}]</a>
+        </div>
+        <div v-if="item.id > 0 && item.canedit">
+            <a v-if="!editMode" @click="toggleEditMode" href="#">[Resx:{key:"EditItem"}]</a>
+            <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
+        </div>
+    </div>
+</script>
 
 <script language="javascript" type="text/javascript">
-    var moduleId = parseInt("[ModuleContext:ModuleId]");
-
     jQuery(function ($) {
-        // Define a new component called edit-item
-        Vue.component('edit-item',
-            {
-                template: '<div>This will be edit</div>'
-            });
-
-        var app = new Vue({
-            el: '#app-[ModuleContext:ModuleId]',
-            data: {
-                addMode: false,
-                items: [
-                    { "id": 2, "name": "item 1", "description": "omschrijving 1", "assignedUser": null }, 
-                    { "id": 3, "name": "item 2", "description": "omschirjving 2", "assignedUser": null }
-                ]
-            },
-            methods: {
-                deleteItem() {
-                    alert('delete it');
-                },
-                addItem() {
-                    this.addMode = true;
-                }
-            },
-            mounted: function() {
-                EmptyModuleVue.GetItemList(function(data) {
-                    this.items = data;
-                });
-            }
-        });
+        EmptyModuleVue.InitApp([ModuleContext:ModuleId], '[ModuleContext:EditMode]' === 'True');
     });
 
 </script>

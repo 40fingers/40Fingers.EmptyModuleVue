@@ -117,14 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BasicSettings.Text" xml:space="preserve">
-    <value>Basic EmptyModuleVue Settings</value>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnSubmit.Text" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="CollapseAll.Text" xml:space="preserve">
     <value>Collapse All</value>
   </data>
   <data name="ConfirmDelete.Text" xml:space="preserve">
     <value>Are you sure you want to delete this Item</value>
+  </data>
+  <data name="ControlTitle_edit.Text" xml:space="preserve">
+    <value>Edit Control for EmptyModuleVue</value>
   </data>
   <data name="DeleteItem.Text" xml:space="preserve">
     <value>Delete</value>
@@ -134,5 +140,26 @@
   </data>
   <data name="EditModule.Text" xml:space="preserve">
     <value>Add Item</value>
+  </data>
+  <data name="lblAssignedUser.Help" xml:space="preserve">
+    <value>Choose a user to assign this object to.</value>
+  </data>
+  <data name="lblAssignedUser.Text" xml:space="preserve">
+    <value>Assigned User</value>
+  </data>
+  <data name="lblDescription.Help" xml:space="preserve">
+    <value>Enter a Description for your Item</value>
+  </data>
+  <data name="lblDescription.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="lblName.Help" xml:space="preserve">
+    <value>Enter the Name for your Item</value>
+  </data>
+  <data name="lblName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Refresh.Text" xml:space="preserve">
+    <value>Refresh</value>
   </data>
 </root>

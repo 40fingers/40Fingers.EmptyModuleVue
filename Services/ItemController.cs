@@ -46,38 +46,15 @@ namespace FortyFingers.EmptyModuleVue.Services
             List<ItemViewModel> retval = new List<ItemViewModel>();
             List <Item>  items;
 
-            if (Globals.IsEditMode())
-            {
-                items = DbCtx.Items.Where(i => i.ModuleId == ActiveModule.ModuleID)
-                       .ToList();
-
-                items.ForEach(i => retval.Add(new ItemViewModel(i, GetEditUrl(i.Id))));
-            }
-            else
-            {
-                items = DbCtx.Items.Where(i => i.ModuleId == ActiveModule.ModuleID)
-                       .ToList();
-
-                items.ForEach(i => retval.Add(new ItemViewModel(i, "")));
-            }
+            items = DbCtx.Items.Where(i => i.ModuleId == ActiveModule.ModuleID).ToList();
+            items.ForEach(i => retval.Add(new ItemViewModel(i, Globals.IsEditMode())));
 
             return Request.CreateResponse(retval);
         }
 
-        protected string GetEditUrl(int id)
-        {
-            string editUrl = Globals.NavigateURL("Edit", string.Format("mid={0}", ActiveModule.ModuleID), string.Format("tid={0}", id));
-
-            if (PortalSettings.EnablePopUps)
-            {
-                editUrl = UrlUtils.PopUpUrl(editUrl, PortalSettings, false, false, 550, 950);
-            }
-            return editUrl;
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public HttpResponseMessage Upsert(ItemViewModel item)
+        public HttpResponseMessage Save(ItemViewModel item)
         {
             if (item.Id > 0)
             {
