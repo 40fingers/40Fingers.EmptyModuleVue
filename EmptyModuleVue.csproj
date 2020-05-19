@@ -114,6 +114,7 @@
     <Compile Include="Services\ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BuildScripts\custom.xml.sample" />
     <Content Include="BuildScripts\custom.xml" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
     <Content Include="License.txt" />
@@ -159,6 +160,7 @@
     <Content Include="Web.config" />
     <Content Include="Sql\00.00.01.SqlDataProvider" />
     <Content Include="Sql\Uninstall.SqlDataProvider" />
+    <Content Include="readme.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
