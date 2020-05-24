@@ -117,6 +117,11 @@
     <None Include="BuildScripts\custom.xml.sample" />
     <Content Include="BuildScripts\custom.xml" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
+    <Content Include="client-app\babel.config.js" />
+    <Content Include="client-app\public\favicon.ico" />
+    <Content Include="client-app\public\index.html" />
+    <Content Include="client-app\src\assets\logo.png" />
+    <Content Include="client-app\src\main.js" />
     <Content Include="License.txt" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
@@ -161,6 +166,12 @@
     <Content Include="Sql\00.00.01.SqlDataProvider" />
     <Content Include="Sql\Uninstall.SqlDataProvider" />
     <Content Include="readme.md" />
+    <Content Include="client-app\.gitignore" />
+    <Content Include="client-app\package-lock.json" />
+    <Content Include="client-app\package.json" />
+    <Content Include="client-app\README.md" />
+    <Content Include="client-app\src\App.vue" />
+    <Content Include="client-app\src\components\HelloWorld.vue" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
