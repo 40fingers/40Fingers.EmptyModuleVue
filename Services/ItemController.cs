@@ -53,7 +53,7 @@ namespace FortyFingers.EmptyModuleVue.Services
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public HttpResponseMessage Save(ItemViewModel item)
         {
             if (item.Id > 0)

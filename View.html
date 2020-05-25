@@ -1,28 +1,9 @@
 ﻿[JavaScript:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/ItemView.js"}]
+[JavaScript:{ path: "https://unpkg.com/vue@2.1.10/dist/vue.js", priority: 0}]
 [CSS:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/css/app.css"}]
 
 <div data-moduleid="[ModuleContext:ModuleId]" data-tabid="[ModuleContext:TabId]">
-    <div id="app">
-        <div>
-            <a @click="loadItems" href="#">[Resx:{key:"Refresh"}]</a>
-            <a v-if="userCanAdd" @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
-        </div>
-        <ul class="tm_tl">
-            <li class="tm_t" v-for="(item, index) in items" :key="item.id">
-                <h3>{{item.name}}</h3>
-                <div class="tm_td">{{item.description}}</div>
-                <edit-component :moduleid="moduleid"
-                                :id="item.id"
-                                :name="item.name"
-                                :description="item.description"
-                                :canedit="item.canEdit"
-                                :assigned-user="item.assignedUser"
-                                :users="users"
-                                v-on:reload="loadItems"
-                                v-on:edit-cancelled="cancelAdd"></edit-component>
-            </li>
-        </ul>
-    </div>
+    <div id="app"></div>
     <script type="text/javascript" src="/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/js/chunk-vendors.js"></script>
     <script type="text/javascript" src="/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/js/app.js"></script>
 </div>

@@ -3,15 +3,15 @@
         <div v-if="editMode || item.id <= 0" class="dnnForm dnnEditBasicSettings" id="dnnEditBasicSettings">
             <fieldset>
                 <div class="dnnFormItem">
-                    <div><label for="itemName">[Resx:{key:"lblName"}]</label></div>
+                    <div><label for="itemName">{{resx.lblName}}</label></div>
                     <input id="itemName" type="text" v-model="item.name" />
                 </div>
                 <div class="dnnFormItem">
-                    <div><label for="itemDescription">[Resx:{key:"lblDescription"}]</label></div>
+                    <div><label for="itemDescription">{{resx.lblDescription}}</label></div>
                     <textarea id="itemDescription" cols="20" rows="5" v-model="item.description"></textarea>
                 </div>
                 <div class="dnnFormItem">
-                    <div><label for="itemUser">[Resx:{key:"lblAssignedUser"}]</label></div>
+                    <div><label for="itemUser">{{resx.lblAssignedUser}}</label></div>
                     <select v-model="item.assignedUser">
                         <option v-for="user in users" v-bind:value="user.id">
                             {{ user.name }}
@@ -19,12 +19,12 @@
                     </select>
                 </div>
             </fieldset>
-            <a href="#" @click="saveItem" class="dnnPrimaryAction">[Resx:{key:"btnSubmit"}]</a>
-            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">[Resx:{key:"btnCancel"}]</a>
+            <a href="#" @click="saveItem" class="dnnPrimaryAction">{{resx.btnSubmit}}</a>
+            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">{{resx.btnCancel}}</a>
         </div>
         <div v-if="item.id > 0 && item.canedit">
-            <a v-if="!editMode" @click="toggleEditMode" href="#">[Resx:{key:"EditItem"}]</a>
-            <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
+            <a v-if="!editMode" @click="toggleEditMode" href="#">{{resx.EditItem}}</a>
+            <a @click="deleteItem" href="#">{{resx.DeleteItem}}</a>
         </div>
     </div>
 </template>
@@ -35,7 +35,7 @@
         props: {
             msg: String
         },
-        props: ['moduleid', 'id', 'name', 'description', 'canedit', 'assigned-user', 'users'],
+        props: ['moduleid', 'tabid', 'resx', 'id', 'name', 'description', 'canedit', 'assigned-user', 'users'],
         data: function () {
             return {
                 editMode: false,
@@ -54,7 +54,7 @@
             },
             saveItem() {
                 var self = this;
-                EmptyModuleVue.SaveItem(moduleid,
+                EmptyModuleVue.SaveItem(this.tabid, this.moduleid,
                     {
                         id: self.item.id,
                         name: self.item.name,
@@ -73,7 +73,7 @@
             },
             deleteItem() {
                 var self = this;
-                EmptyModuleVue.DeleteItem(moduleid, this.item.id,
+                EmptyModuleVue.DeleteItem(this.tabid, this.moduleid, this.item.id,
                     function () {
                         self.$emit('reload');
                     });
