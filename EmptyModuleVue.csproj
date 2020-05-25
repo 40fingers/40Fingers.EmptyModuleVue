@@ -122,11 +122,14 @@
     <Content Include="client-app\public\index.html" />
     <Content Include="client-app\src\assets\logo.png" />
     <Content Include="client-app\src\main.js" />
+    <Content Include="client-app\vue.config.js" />
     <Content Include="License.txt" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
     <Content Include="Scripts\ItemView.js" />
     <Content Include="Scripts\QuickSettings.js" />
+    <Content Include="Settings.html" />
+    <Content Include="View.html" />
     <Content Include="_external\DotNetNuke.dll" />
     <Content Include="_external\DotNetNuke.Web.dll" />
     <Content Include="_external\DotNetNuke.WebUtility.dll" />
@@ -152,8 +155,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Settings.html" />
-    <Content Include="View.html" />
+    <Content Include="Settings.org.html" />
+    <Content Include="View.org.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EmptyModuleVue.dnn">
@@ -168,10 +171,11 @@
     <Content Include="readme.md" />
     <Content Include="client-app\.gitignore" />
     <Content Include="client-app\package-lock.json" />
-    <Content Include="client-app\package.json" />
     <Content Include="client-app\README.md" />
     <Content Include="client-app\src\App.vue" />
-    <Content Include="client-app\src\components\HelloWorld.vue" />
+    <Content Include="client-app\src\components\EditComponent.vue" />
+    <Content Include="package.json" />
+    <Content Include="client-app\package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -201,6 +205,8 @@
     <PackageName>EmptyModuleVue</PackageName>
   </PropertyGroup>
   <Import Project="BuildScripts\ModulePackage.Targets" />
+  <Target Name="BeforeBuild" DependsOnTargets="BuildVueClientApp">
+  </Target>
   <Target Name="AfterBuild" DependsOnTargets="PackageAndDeploy">
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -211,4 +217,8 @@
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

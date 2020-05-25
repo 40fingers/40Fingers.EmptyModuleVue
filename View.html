@@ -1,10 +1,8 @@
-﻿[JavaScript:{ jsname: "JQuery" }]
-[JavaScript:{ path: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"}]
-[JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
-[JavaScript:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/ItemView.js"}]
+﻿[JavaScript:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/ItemView.js"}]
+[CSS:{ path: "~/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/css/app.css"}]
 
-<div id="vue-app-wrapper-[ModuleContext:ModuleId]">
-    <div id="app-[ModuleContext:ModuleId]">
+<div data-moduleid="[ModuleContext:ModuleId]" data-tabid="[ModuleContext:TabId]">
+    <div id="app">
         <div>
             <a @click="loadItems" href="#">[Resx:{key:"Refresh"}]</a>
             <a v-if="userCanAdd" @click="addItem" href="#">[Resx:{key:"EditModule"}]</a>
@@ -25,42 +23,12 @@
             </li>
         </ul>
     </div>
+    <script type="text/javascript" src="/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/js/chunk-vendors.js"></script>
+    <script type="text/javascript" src="/DesktopModules/40Fingers/EmptyModuleVue/scripts/client-app/js/app.js"></script>
 </div>
-
-<script type="x-template" id="edit-component-[ModuleContext:ModuleId]">
-    <div>
-        <div v-if="editMode || item.id <= 0" class="dnnForm dnnEditBasicSettings" id="dnnEditBasicSettings">
-            <fieldset>
-                <div class="dnnFormItem">
-                    <div><label for="itemName">[Resx:{key:"lblName"}]</label></div>
-                    <input id="itemName" type="text" v-model="item.name" />
-                </div>
-                <div class="dnnFormItem">
-                    <div><label for="itemDescription">[Resx:{key:"lblDescription"}]</label></div>
-                    <textarea id="itemDescription" cols="20" rows="5" v-model="item.description"></textarea>
-                </div>
-                <div class="dnnFormItem">
-                    <div><label for="itemUser">[Resx:{key:"lblAssignedUser"}]</label></div>
-                    <select v-model="item.assignedUser">
-                        <option v-for="user in users" v-bind:value="user.id">
-                            {{ user.name }}
-                        </option>
-                    </select>
-                </div>
-            </fieldset>
-            <a href="#" @click="saveItem" class="dnnPrimaryAction">[Resx:{key:"btnSubmit"}]</a>
-            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">[Resx:{key:"btnCancel"}]</a>
-        </div>
-        <div v-if="item.id > 0 && item.canedit">
-            <a v-if="!editMode" @click="toggleEditMode" href="#">[Resx:{key:"EditItem"}]</a>
-            <a @click="deleteItem" href="#">[Resx:{key:"DeleteItem"}]</a>
-        </div>
-    </div>
-</script>
-
 <script language="javascript" type="text/javascript">
-    jQuery(function ($) {
-        EmptyModuleVue.InitApp([ModuleContext:ModuleId], '[ModuleContext:EditMode]' === 'True');
-    });
+    //jQuery(function ($) {
+    //    EmptyModuleVue.InitApp(Number('[ModuleContext:ModuleId]'), '[ModuleContext:EditMode]' === 'True');
+    //});
 
 </script>

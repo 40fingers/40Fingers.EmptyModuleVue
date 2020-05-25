@@ -2,120 +2,137 @@
 
 EmptyModuleVue.services = {}; // we need a service reference for each module
 
-EmptyModuleVue.InitApp = function (moduleid, editmode) {
-    // create the service object for this module
-    var svc = {
-        moduleid: moduleid,
-        path: "40Fingers/EmptyModuleVue",
-        framework: $.ServicesFramework(moduleid)
-    };
-    svc.baseUrl = svc.framework.getServiceRoot(svc.path) + "Item/";
+//EmptyModuleVue.InitApp = function (moduleid, editmode) {
+//    // create the service object for this module
+//    var svc = {
+//        moduleid: moduleid,
+//        path: "40Fingers/EmptyModuleVue",
+//        framework: $.ServicesFramework(moduleid)
+//    };
+//    svc.baseUrl = svc.framework.getServiceRoot(svc.path) + "Item/";
 
-    // add the service to the object containg all services in case multiple modules are placed on the page
-    EmptyModuleVue.services[`svc-${moduleid}`] = svc;
+//    // add the service to the object containg all services in case multiple modules are placed on the page
+//    EmptyModuleVue.services[`svc-${moduleid}`] = svc;
 
-    // create the edit-component
-    Vue.component('edit-component',
-        {
-            template: `#edit-component-${moduleid}`,
-            props: ['moduleid', 'id', 'name', 'description', 'canedit', 'assigned-user', 'users'],
-            data: function () {
-                return {
-                    editMode: false,
-                    item: {
-                        id: this.id,
-                        name: this.name,
-                        description: this.description,
-                        canedit: this.canedit,
-                        assignedUser: this.assignedUser
-                    },
-                }
-            },
-            methods: {
-                toggleEditMode() {
-                    this.editMode = !this.editMode;
-                },
-                saveItem() {
-                    var self = this;
-                    EmptyModuleVue.SaveItem(moduleid, 
-                        {
-                            id: self.item.id,
-                            name: self.item.name,
-                            description: self.item.description,
-                            assignedUser: self.item.assignedUser
-                        },
-                        function (data) {
-                            // onDone
-                            self.editMode = false;
-                            self.$emit('reload');
-                        });
-                },
-                cancelEdit() {
-                    this.editMode = false;
-                    this.$emit("edit-cancelled");
-                },
-                deleteItem() {
-                    var self = this;
-                    EmptyModuleVue.DeleteItem(moduleid, this.item.id,
-                        function () {
-                            self.$emit('reload');
-                        });
-                },
-            },
-            mounted: function () {
-            }
-        });
+//    // create the edit-component
+//    //Vue.component('edit-component',
+//    //    {
+//    //        template: `#edit-component-${moduleid}`,
+//    //        props: ['moduleid', 'id', 'name', 'description', 'canedit', 'assigned-user', 'users'],
+//    //        data: function () {
+//    //            return {
+//    //                editMode: false,
+//    //                item: {
+//    //                    id: this.id,
+//    //                    name: this.name,
+//    //                    description: this.description,
+//    //                    canedit: this.canedit,
+//    //                    assignedUser: this.assignedUser
+//    //                },
+//    //            }
+//    //        },
+//    //        methods: {
+//    //            toggleEditMode() {
+//    //                this.editMode = !this.editMode;
+//    //            },
+//    //            saveItem() {
+//    //                var self = this;
+//    //                EmptyModuleVue.SaveItem(moduleid, 
+//    //                    {
+//    //                        id: self.item.id,
+//    //                        name: self.item.name,
+//    //                        description: self.item.description,
+//    //                        assignedUser: self.item.assignedUser
+//    //                    },
+//    //                    function (data) {
+//    //                        // onDone
+//    //                        self.editMode = false;
+//    //                        self.$emit('reload');
+//    //                    });
+//    //            },
+//    //            cancelEdit() {
+//    //                this.editMode = false;
+//    //                this.$emit("edit-cancelled");
+//    //            },
+//    //            deleteItem() {
+//    //                var self = this;
+//    //                EmptyModuleVue.DeleteItem(moduleid, this.item.id,
+//    //                    function () {
+//    //                        self.$emit('reload');
+//    //                    });
+//    //            },
+//    //        },
+//    //        mounted: function () {
+//    //        }
+//    //    });
 
-    new Vue({
-        el: `#app-${moduleid}`,
-        computed: {
-            userCanAdd: function () {
-                return editmode && (this.items.length == 0 || this.items[0].id > 0);
-            }
-        },
-        data: {
-            moduleid : moduleid,
-            addMode: false,
-            editId: 0,
-            items: [],
-            users: [],
-        },
-        methods: {
-            loadItems() {
-                var self = this;
-                EmptyModuleVue.GetItemList(moduleid, function (data) {
-                    self.items = data;
-                });
-            },
-            loadUsers() {
-                var self = this;
-                EmptyModuleVue.GetUserList(moduleid, function (data) {
-                    self.users = data;
-                });
-            },
-            addItem(item) {
-                this.items.unshift({ id: 0 });
-            },
-            cancelAdd() {
-                if (this.items.length > 0 && this.items[0].id === 0) {
-                    this.items.splice(0, 1);
-                }
-            },
-        },
-        mounted: function () {
-            this.loadItems();
-            this.loadUsers();
-        }
-    });
-}
+//    //new Vue({
+//    //    el: `#app-${moduleid}`,
+//    //    computed: {
+//    //        userCanAdd: function () {
+//    //            return editmode && (this.items.length == 0 || this.items[0].id > 0);
+//    //        }
+//    //    },
+//    //    data: {
+//    //        moduleid : moduleid,
+//    //        addMode: false,
+//    //        editId: 0,
+//    //        items: [],
+//    //        users: [],
+//    //    },
+//    //    methods: {
+//    //        loadItems() {
+//    //            var self = this;
+//    //            EmptyModuleVue.GetItemList(moduleid, function (data) {
+//    //                self.items = data;
+//    //            });
+//    //        },
+//    //        loadUsers() {
+//    //            var self = this;
+//    //            EmptyModuleVue.GetUserList(moduleid, function (data) {
+//    //                self.users = data;
+//    //            });
+//    //        },
+//    //        addItem(item) {
+//    //            this.items.unshift({ id: 0 });
+//    //        },
+//    //        cancelAdd() {
+//    //            if (this.items.length > 0 && this.items[0].id === 0) {
+//    //                this.items.splice(0, 1);
+//    //            }
+//    //        },
+//    //    },
+//    //    mounted: function () {
+//    //        this.loadItems();
+//    //        this.loadUsers();
+//    //    }
+//    //});
+//}
 
 
 EmptyModuleVue.GetItemList = function (moduleid, onDone) {
     // get the service for this module from the services object
     var svc = EmptyModuleVue.services[`svc-${moduleid}`];
+
+    if (typeof(svc) === "undefined") {
+        svc = {
+            moduleid: moduleid,
+            path: "40Fingers/EmptyModuleVue",
+            framework: $.ServicesFramework(moduleid)
+        };
+        svc.baseUrl = svc.framework.getServiceRoot(svc.path) + "Item/";
+
+        // add the service to the object containg all services in case multiple modules are placed on the page
+        EmptyModuleVue.services[`svc-${moduleid}`] = svc;
+    }
+
+    //beforeSend: svc.framework.setModuleHeaders,
     var jqXHR = $.ajax({
         url: svc.baseUrl,
-        beforeSend: svc.framework.setModuleHeaders,
+        beforeSend: function(request) {
+            request.setRequestHeader("moduleid", moduleid);
+            request.setRequestHeader("tabid", 36);
+        },
         dataType: "json"
     }).done(function (data) {
         if (typeof (onDone) === "function") {
@@ -139,8 +156,11 @@ EmptyModuleVue.SaveItem = function (moduleid, editItem, onDone, onFail) {
         url: restUrl,
         contentType: "application/json; charset=UTF-8",
         data: JSON.stringify(editItem),
-        beforeSend: svc.framework.setModuleHeaders,
-        dataType: "json"
+        beforeSend: function(request) {
+            request.setRequestHeader("moduleid", moduleid);
+            request.setRequestHeader("tabid", 36);
+        },
+                dataType: "json"
     }).done(function (data) {
         if (typeof (onDone) === "function") {
             onDone(data);
@@ -156,7 +176,10 @@ EmptyModuleVue.DeleteItem = function (moduleid, id, onDone, onFail) {
     var jqXHR = $.ajax({
         method: "DELETE",
         url: restUrl,
-        beforeSend: svc.framework.setModuleHeaders
+        beforeSend: function(request) {
+            request.setRequestHeader("moduleid", moduleid);
+            request.setRequestHeader("tabid", 36);
+        },
     }).done(function () {
         if (typeof (onDone) === "function") {
             onDone();
@@ -173,7 +196,10 @@ EmptyModuleVue.GetUserList = function (moduleid, onDone) {
     var restUrl = svc.framework.getServiceRoot(svc.path) + "User/";
     var jqXHR = $.ajax({
         url: restUrl,
-        beforeSend: svc.framework.setModuleHeaders,
+        beforeSend: function(request) {
+            request.setRequestHeader("moduleid", moduleid);
+            request.setRequestHeader("tabid", 36);
+        },
         dataType: "json",
         async: false
     }).done(function (data) {
