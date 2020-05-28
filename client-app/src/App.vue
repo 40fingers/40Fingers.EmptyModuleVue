@@ -1,8 +1,8 @@
 <template>
     <div ref="approot">
         <div>
-            <a @click="loadItems" href="#">{{resx.Refresh}}</a>
-            <a v-if="userCanAdd" @click="addItem" href="#">{{resx.EditModule}}</a>
+            <a @click.prevent="loadItems" href="#">{{resx.Refresh}}</a>
+            <a v-if="userCanAdd" @click.prevent="addItem" href="#">{{resx.EditModule}}</a>
         </div>
         <ul class="tm_tl">
             <li class="tm_t" v-for="(item, index) in items" :key="item.id">
@@ -16,6 +16,7 @@
                                 :assigned-user="item.assignedUser"
                                 :users="users"
                                 v-on:reload="loadItems"
+                                v-on:edit-started="startEdit"
                                 v-on:edit-cancelled="cancelAdd"></edit-component>
             </li>
         </ul>
@@ -33,37 +34,40 @@
         computed: {
             userCanAdd: function () {
                 // todo: editmode
-                return true && (this.items.length == 0 || this.items[0].id > 0);
+                return this.dnnEditMode && (this.items.length == 0 || this.items[0].id > 0);
             }
         },
         data: function () {
             return {
                 moduleid: 0,
                 tabid: 0,
+                dnnEditMode: false,
                 addMode: false,
                 editId: 0,
                 items: [],
                 users: [],
                 resx: {},
+                usersFetched: false,
             }
         },
         methods: {
-            loadResx() {
-                var self = this;
-                EmptyModuleVue.GetResxList(this.tabid, this.moduleid, "View", function (data) {
-                    self.resx = data;
-                });
-            },
             loadItems() {
                 var self = this;
                 EmptyModuleVue.GetItemList(this.tabid, this.moduleid, function (data) {
                     self.items = data;
                 });
             },
+            loadResx() {
+                var self = this;
+                EmptyModuleVue.GetResxList(this.tabid, this.moduleid, "View", function (data) {
+                    self.resx = data;
+                });
+            },
             loadUsers() {
                 var self = this;
                 EmptyModuleVue.GetUserList(this.tabid, this.moduleid, function (data) {
                     self.users = data;
+                    self.usersFetched = true;
                 });
             },
             addItem(item) {
@@ -74,13 +78,18 @@
                     this.items.splice(0, 1);
                 }
             },
+            startEdit() {
+                if (this.usersFetched === false) {
+                    this.loadUsers();
+                }
+            },
         },
         mounted: function () {
             this.moduleid = Number(this.$refs.approot.parentNode.attributes["data-moduleid"].nodeValue);
             this.tabid = Number(this.$refs.approot.parentNode.attributes["data-tabid"].nodeValue);
+            this.dnnEditMode = this.$refs.approot.parentNode.attributes["data-editmode"].nodeValue.toLowerCase() === "true";
             this.loadItems();
             this.loadResx();
-            this.loadUsers();
         }
     }
 </script>

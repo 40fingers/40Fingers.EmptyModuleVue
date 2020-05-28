@@ -19,12 +19,12 @@
                     </select>
                 </div>
             </fieldset>
-            <a href="#" @click="saveItem" class="dnnPrimaryAction">{{resx.btnSubmit}}</a>
-            <a href="#" @click="cancelEdit" class="dnnSecondaryAction">{{resx.btnCancel}}</a>
+            <a href="#" @click.prevent="saveItem" class="dnnPrimaryAction">{{resx.btnSubmit}}</a>
+            <a href="#" @click.prevent="cancelEdit" class="dnnSecondaryAction">{{resx.btnCancel}}</a>
         </div>
         <div v-if="item.id > 0 && item.canedit">
-            <a v-if="!editMode" @click="toggleEditMode" href="#">{{resx.EditItem}}</a>
-            <a @click="deleteItem" href="#">{{resx.DeleteItem}}</a>
+            <a v-if="!editMode" @click.prevent="toggleEditMode" href="#">{{resx.EditItem}}</a>
+            <a @click.prevent="deleteItem" href="#">{{resx.DeleteItem}}</a>
         </div>
     </div>
 </template>
@@ -51,6 +51,9 @@
         methods: {
             toggleEditMode() {
                 this.editMode = !this.editMode;
+                // send notice we're going to editmode
+                if (this.editMode) this.$emit("edit-started");
+                return false;
             },
             saveItem() {
                 var self = this;

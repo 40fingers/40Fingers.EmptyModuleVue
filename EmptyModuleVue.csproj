@@ -157,10 +157,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Settings.org.html" />
-    <Content Include="View.org.html" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="EmptyModuleVue.dnn">
       <SubType>Designer</SubType>
     </Content>

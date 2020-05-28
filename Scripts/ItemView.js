@@ -1,30 +1,18 @@
 ﻿var EmptyModuleVue = EmptyModuleVue || {};
 
-EmptyModuleVue.services = {}; // we need a service reference for each module
-
-
-EmptyModuleVue.GetItemList = function (tabid, moduleid, onDone) {
-    // get the service for this module from the services object
-    var svc = EmptyModuleVue.services[`svc-${moduleid}`];
-
-    if (typeof(svc) === "undefined") {
-        svc = {
-            moduleid: moduleid,
-            path: "40Fingers/EmptyModuleVue",
-            framework: $.ServicesFramework(moduleid)
-        };
-        svc.baseUrl = svc.framework.getServiceRoot(svc.path) + "Item/";
-
-        // add the service to the object containg all services in case multiple modules are placed on the page
-        EmptyModuleVue.services[`svc-${moduleid}`] = svc;
+EmptyModuleVue.baseUrl = "/API/40Fingers/EmptyModuleVue";
+EmptyModuleVue.service = {
+    baseUrl : "/API/40Fingers/EmptyModuleVue",
+    setModuleHeaders : function(request, moduleid, tabid) {
+        request.setRequestHeader("moduleid", moduleid);
+        request.setRequestHeader("tabid", tabid);
     }
-
-    //beforeSend: svc.framework.setModuleHeaders,
+};
+EmptyModuleVue.GetItemList = function (tabid, moduleid, onDone) {
     var jqXHR = $.ajax({
-        url: svc.baseUrl,
+        url: EmptyModuleVue.service.baseUrl + "/Item/",
         beforeSend: function(request) {
-            request.setRequestHeader("moduleid", moduleid);
-            request.setRequestHeader("tabid", tabid);
+            EmptyModuleVue.service.setModuleHeaders(request, moduleid, tabid);
         },
         dataType: "json"
     }).done(function (data) {
@@ -35,23 +23,13 @@ EmptyModuleVue.GetItemList = function (tabid, moduleid, onDone) {
 }
 
 EmptyModuleVue.SaveItem = function (tabid, moduleid, editItem, onDone, onFail) {
-    // get the service for this module from the services object
-    var svc = EmptyModuleVue.services[`svc-${moduleid}`];
-    var ajaxMethod = "POST";
-    var restUrl = svc.baseUrl;
-
-    if (editItem.id > 0) {
-        // ajaxMethod = "PATCH";
-        restUrl += editItem.id;
-    }
     var jqXHR = $.ajax({
-        method: ajaxMethod,
-        url: restUrl,
+        method: "POST",
         contentType: "application/json; charset=UTF-8",
         data: JSON.stringify(editItem),
+        url: EmptyModuleVue.service.baseUrl + "/Item/" + editItem.id,
         beforeSend: function(request) {
-            request.setRequestHeader("moduleid", moduleid);
-            request.setRequestHeader("tabid", tabid);
+            EmptyModuleVue.service.setModuleHeaders(request, moduleid, tabid);
         },
         dataType: "json"
     }).done(function (data) {
@@ -63,15 +41,11 @@ EmptyModuleVue.SaveItem = function (tabid, moduleid, editItem, onDone, onFail) {
 };
 
 EmptyModuleVue.DeleteItem = function (tabid, moduleid, id, onDone, onFail) {
-    // get the service for this module from the services object
-    var svc = EmptyModuleVue.services[`svc-${moduleid}`];
-    var restUrl = svc.baseUrl + id;
     var jqXHR = $.ajax({
         method: "DELETE",
-        url: restUrl,
+        url: EmptyModuleVue.service.baseUrl + "/Item/" + id,
         beforeSend: function(request) {
-            request.setRequestHeader("moduleid", moduleid);
-            request.setRequestHeader("tabid", tabid);
+            EmptyModuleVue.service.setModuleHeaders(request, moduleid, tabid);
         },
     }).done(function () {
         if (typeof (onDone) === "function") {
@@ -83,15 +57,10 @@ EmptyModuleVue.DeleteItem = function (tabid, moduleid, id, onDone, onFail) {
 };
 
 EmptyModuleVue.GetUserList = function (tabid, moduleid, onDone) {
-    // get the service for this module from the services object
-    var svc = EmptyModuleVue.services[`svc-${moduleid}`];
-    // need to calculate a different Url for User service
-    var restUrl = svc.framework.getServiceRoot(svc.path) + "User/";
     var jqXHR = $.ajax({
-        url: restUrl,
+        url: EmptyModuleVue.service.baseUrl + "/User/",
         beforeSend: function(request) {
-            request.setRequestHeader("moduleid", moduleid);
-            request.setRequestHeader("tabid", tabid);
+            EmptyModuleVue.service.setModuleHeaders(request, moduleid, tabid);
         },
         dataType: "json",
         async: false
@@ -104,15 +73,10 @@ EmptyModuleVue.GetUserList = function (tabid, moduleid, onDone) {
 };
 
 EmptyModuleVue.GetResxList = function (tabid, moduleid, filename, onDone) {
-    // get the service for this module from the services object
-    var svc = EmptyModuleVue.services[`svc-${moduleid}`];
-    // need to calculate a different Url for User service
-    var restUrl = svc.framework.getServiceRoot(svc.path) + "Resx/?filename=" + filename;
     var jqXHR = $.ajax({
-        url: restUrl,
+        url: EmptyModuleVue.service.baseUrl + "/Resx/?filename=" + filename,
         beforeSend: function(request) {
-            request.setRequestHeader("moduleid", moduleid);
-            request.setRequestHeader("tabid", tabid);
+            EmptyModuleVue.service.setModuleHeaders(request, moduleid, tabid);
         },
         dataType: "json",
         async: false
