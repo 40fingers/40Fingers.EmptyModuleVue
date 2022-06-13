@@ -24,7 +24,8 @@
 </template>
 
 <script>
-    import EditComponent from './components/EditComponent.vue'
+    import EditComponent from './components/EditComponent.vue';
+    import EmptyModuleVue from './lib/ItemView';
 
     export default {
         name: 'App',
