@@ -123,6 +123,7 @@
     <Content Include="client-app\public\favicon.ico" />
     <Content Include="client-app\public\index.html" />
     <Content Include="client-app\src\assets\logo.png" />
+    <Content Include="client-app\src\lib\ItemView.js" />
     <Content Include="client-app\src\main.js" />
     <Content Include="client-app\vue.config.js" />
     <Content Include="License.txt" />
